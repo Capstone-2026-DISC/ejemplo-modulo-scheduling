@@ -1,0 +1,70 @@
+/* Los colores y radios son las variables del kit de la plataforma (/kit/tema.css); los valores de respaldo sirven si el
+   módulo se abre fuera de la plataforma, durante el desarrollo. */
+.cuerpo {
+  margin: 0;
+  padding: 4px;
+  background: var(--c-bg, #f2f5f9);
+  color: var(--c-text, #1b1f2a);
+  font-family: var(--kit-fuente, system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.pagina {
+  display: grid;
+  gap: 16px;
+}
+
+.tarjeta {
+  padding: 20px;
+  border: 1px solid var(--c-border, #d5dbe5);
+  border-radius: var(--radius-md, 12px);
+  background: var(--c-surface, #fff);
+}
+
+.titulo {
+  margin: 0 0 8px;
+  color: var(--c-ink, #211f37);
+  font-size: 20px;
+}
+
+.subtitulo {
+  margin: 0 0 12px;
+  color: var(--c-ink, #211f37);
+  font-size: 16px;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 16px;
+  margin: 0;
+}
+
+.datos dt {
+  color: var(--c-muted, #4b5565);
+}
+
+.datos dd {
+  margin: 0;
+}
+
+.tabla {
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabla th,
+.tabla td {
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--c-border, #d5dbe5);
+  text-align: left;
+}
+
+.aviso {
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--c-warn, #8a4b00);
+  border-radius: var(--radius-md, 12px);
+  background: var(--c-warn-bg, #fff3d6);
+}
