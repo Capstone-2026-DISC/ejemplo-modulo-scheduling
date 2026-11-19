@@ -68,3 +68,34 @@
   border-radius: var(--radius-md, 12px);
   background: var(--c-warn-bg, #fff3d6);
 }
+
+/* Menú de la plataforma */
+.secciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px 24px;
+}
+
+.seccion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.etiqueta {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--c-brand-soft, #e4e8fb);
+  color: var(--c-brand, #4a48b8);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.propio {
+  background: var(--c-brand-soft, #e4e8fb);
+}

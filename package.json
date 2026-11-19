@@ -1,6 +1,6 @@
 {
   "name": "disc-modulo-ejemplo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Módulo de ejemplo para integrarse a DISC Scheduling como servicio aparte: solo lectura, textos de relleno.",
   "scripts": {

@@ -33,8 +33,9 @@ Es un módulo mínimo, de **solo lectura**, con textos de relleno, que muestra t
 | Página | Qué muestra | Permiso |
 |---|---|---|
 | **Inicio** `/` | Lorem ipsum y la sesión de quien mira (nombre, rol, departamento, permisos), leída de la plataforma | ninguno |
-| **Datos** `/datos` | Un dato sin importancia: los bloques horarios A a G del catálogo | `catalogo.ver` |
-| **Restringida** `/restringida` | Lorem ipsum, solo para administradores; la página vuelve a comprobar el permiso | `usuarios.gestionar` |
+| **Menú de la plataforma** `/menu` | Las secciones e ítems del menú de la plataforma (`/kit/menu.json`) y dónde cae cada ítem de este módulo | ninguno |
+| **Datos** `/datos` | Un dato sin importancia: los bloques horarios A a G del catálogo. En el menú va en PERIODO, después de «Datos maestros» | `catalogo.ver` |
+| **Restringida** `/restringida` | Lorem ipsum, solo para administradores; la página vuelve a comprobar el permiso. En el menú va en su propia sección, PRUEBA | `usuarios.gestionar` |
 | `/manifiesto.json` | El menú que la plataforma muestra | — |
 | `/salud` | El chequeo de salud del contenedor | — |
 
@@ -50,10 +51,29 @@ flowchart LR
     M -.->|"/kit/tema.css"| F
 ```
 
-1. El **menú** de la plataforma suma los ítems del manifiesto del módulo, filtrados por los permisos de cada persona.
+1. El **menú** de la plataforma suma los ítems del manifiesto del módulo, filtrados por los permisos de cada persona, en
+   la sección y la posición que elija cada ítem (ver [Ubicar los ítems en el menú](#-ubicar-los-ítems-en-el-menú)).
 2. Al abrir uno, la plataforma pone su **encabezado** y muestra el módulo debajo, en un marco del mismo dominio.
 3. El módulo **no tiene login**: recibe la cookie de sesión y consulta la API de la plataforma con el token de la persona.
 4. Toma los **colores** del kit de la plataforma (`/kit/tema.css`) y avisa su alto para que no haya doble barra de desplazamiento.
+
+## 🧭 Ubicar los ítems en el menú
+
+En `src/lib/manifiesto.js`, cada ítem puede elegir dónde aparece:
+
+| Campo | Qué hace |
+|---|---|
+| `grupo` del manifiesto | La sección por defecto de los ítems. Si no existe en la plataforma, se crea una nueva antes de AJUSTES. |
+| `grupo` de un ítem | Lo manda a otra sección: una de la plataforma (`PERIODO`, `HORARIOS`, `COSTOS`...) o una nueva. Un módulo puede crear varias secciones propias (este crea EJEMPLO y PRUEBA). No importan mayúsculas ni tildes. |
+| `despues_de` | El href de un ítem de esa sección (por ejemplo `"/datos-maestros"`): el del módulo queda justo después. Si falta o no existe, va al final. |
+
+La página **Menú de la plataforma** lista las secciones e ítems vigentes (`/kit/menu.json`) y marca dónde quedan los de
+este módulo. El administrador de la plataforma puede juntar todos los ítems de un módulo en la sección **MÓDULOS** desde
+Ajustes avanzados, sin importar lo que diga el manifiesto.
+
+Dentro del panel, el módulo no dibuja un menú lateral propio: el menú es el de la plataforma. Si su módulo tiene uno para
+usarlo por separado, ocúltelo cuando `window.self !== window.top`. Tampoco repite el Inicio ni administra cuentas o
+permisos: eso es de la plataforma.
 
 ## 🚀 Empezar
 
@@ -80,11 +100,13 @@ src/
 ├── app/
 │   ├── layout.js               # sin menú propio: lo pone la plataforma; enlaza /kit/tema.css
 │   ├── page.js                 # Inicio: lorem ipsum + la sesión
+│   ├── menu/page.js            # el menú de la plataforma y dónde caen los ítems del módulo
 │   ├── datos/page.js           # dato de solo lectura (catalogo.ver)
 │   ├── restringida/page.js     # página con permiso (usuarios.gestionar)
 │   ├── manifiesto.json/route.js
 │   └── salud/route.js
 ├── components/altura_incrustada.js   # avisa el alto al marco de la plataforma
+├── components/menu_plataforma.js     # lee /kit/menu.json
 ├── lib/
 │   ├── plataforma.js           # sesión, permisos y lecturas a la API (todo en un lugar)
 │   └── manifiesto.js           # el menú del módulo
